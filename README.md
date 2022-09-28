@@ -8,22 +8,26 @@ Node.js I2C driver for the VISHAY VEML6030 ambient light sensor on Linux boards 
 
 Supports Node.js versions 10, 12, 14, 15 and 16.
 
+VEML6030 chipset datasheet : https://www.vishay.com/docs/84366/veml6030.pdf
+
+VEML6030 chipset application notes : https://www.vishay.com/docs/84367/designingveml6030.pdf?ICID=I-CT-TECH-RES-CLA-SEP_21-0
+
+
 ## Contents
 
  * [Features](#features)
  * [Installation](#installation)
  * [Usage](#usage)
- * [API](#api)
+ * [VEML6030 Class methods](#veml6030-class-methods)
  * [Related Packages](#related-packages)
+ * [Roadmap](#Roadmap)
 
 ## Features
 
  * Ambient light sensing
- * Normal and forced mode
- * Oversampling
- * Filtering
- * Standby period
- * Promise based asynchronous API
+ * Autocalibration mode
+ * Manual mode
+ * Promise based asynchronous call methods
 
 ## Installation
 
@@ -64,13 +68,11 @@ Sample output:
 }
 ```
 
-## API
+## VEML6030 class methods
 
 - [Constructor options](#constructor-options)
-- [Class Bme280](#class-bme280)
-- [Enum OVERSAMPLE](#enum-oversample)
-- [Enum FILTER](#enum-filter)
-- [Enum STANDBY](#enum-standby)
+- [VEML6030 methods](#veml6030-methods)
+- [VEML6030 constants](#veml6030-constants)
 
 ### Constructor options
 
@@ -78,18 +80,19 @@ VEML6030 class constructor accept an optionnal options object.
 
 None of theses options are mandatory, so you can invoke VEML6030 constructor without any parameters. In this case it will use options default values.
 
-#### options
+#### Options
 |Option name|Description|Default Value|
 |:-----|:-----|:-----|
 |debug|If debug is set to true, VEML3060 class will print to console debug information|false|
 |i2cAddress|I2C address (in hex) of VEML6030 chipset|0x48|
 |gain|Fix the gain the chipset should use for reading (use it for manual calibration mode). Authorized value are 0.125, 0.25, 1 or 2. |1|
 |integrationTime|Fix the integration time (in ms) the chipset should use for reading (use it for manual calibration mode)|100|
-|ALSPersistenceProtectNumber||1|
-|ALSInterruptEnableSetting||false|
-|ALSShutDownSetting||0x0false|
-|i2cBusNumber||1|
-### Class VEML6030
+|ALSPersistenceProtectNumber|Leave this option to default value|1|
+|ALSInterruptEnableSetting|Leave this option to default value|false|
+|ALSShutDownSetting|Leave this option to default value|false|
+|i2cBusNumber|I2C bus number. I most case leave this value to default value|1|
+
+### VEML6030 methods
 
 - [init()](#init)
 - [readSensorData()](#readSensorData)
@@ -118,71 +121,33 @@ forced measurement. It will not wait for that measurement to complete. It is
 the responsibility of the application to wait for the measurement to complete
 before invoking read to get the reading.
 
-#### typicalMeasurementTime()
-Returns the typical measurement time in milliseconds.
 
-The typical measurement time depends on the selected values for humidity,
-pressure and temperature oversampling.
+### VEML6030 constants
 
-If OVERSAMPLE.X1 (the default) is used for humidity, pressure and temperature
-oversampling, the typical measurement time is 8 milliseconds.
+VEML6030 package publish folowing constants. You can use it when implementing your own implementation measures.
 
-If OVERSAMPLE.X16 is used for humidity, pressure and temperature oversampling,
-the typical measurement time is 98 milliseconds.
+All theses constants are static, so you can use it like this:
 
-#### maximumMeasurementTime()
-Returns the maximum measurement time in milliseconds.
+```js
+const VEML6030 = require('veml6030');
+console.log('Read command is: %o', VEML6030.ALS_READ_REGISTER);
+```
 
-The maximum measurement time depends on the selected values for humidity,
-pressure and temperature oversampling.
+- **ALS_SETTING_REGISTER**: Send configuration command code. This constant value is 0x00.
+- **ALS_WH_REGISTER**: Send an high value for threshold. This constant value is 0x01. This command is currently not used in this package.
+- **ALS_WL_REGISTER**: Send an low value for threshold. This constant value is 0x02. This command is currently not used in this package.
+- **ALS_POWER_SAVE_REGISTER**: Power saving command. This constant value is 0x03. This command is currently not used in this package.
+- **ALS_READ_REGISTER**: Read command for ALS channel. This constant value is 0x04.
+- **WHITE_READ_REGISTER**: Read command for white channel. This constant value is 0x05. This constant value is 0x03. This command is currently not used in this package.
+- **ALS_INT_REGISTER**: Interrupt status command (use to detect low or high threshold). This constant value is 0x06. This command is currently not used in this package.
+- **READ_BASE_RESOLUTION**: . This constant value is 0.0036.
 
-If OVERSAMPLE.X1 (the default) is used for humidity, pressure and temperature
-oversampling, the maximum measurement time is 10 milliseconds.
-
-If OVERSAMPLE.X16 is used for humidity, pressure and temperature oversampling,
-the maximum measurement time is 113 milliseconds.
-
-#### close()
-Returns a Promise that will be resolved with no arguments once the underlying
-resources have been released, or will be rejected if an error occurs while
-closing.
-
-### Enum OVERSAMPLE
-
-Controls oversampling of sensor data.
-
-- **SKIPPED** - Measurement skipped. The corresponding property in a sensor
-reading object will be undefined.
-- **X1** - Oversampling × 1
-- **X2** - Oversampling × 2
-- **X4** - Oversampling × 4
-- **X8** - Oversampling × 8
-- **X16** - Oversampling × 16
-
-### Enum FILTER
-
-The filter is used to slow down the response to the sensor inputs.
-
-- **OFF** - Filter off
-- **F2** - Filter coefficient = 2
-- **F4** - Filter coefficient = 4
-- **F8** - Filter coefficient = 8
-- **F16** - Filter coefficient = 16
-
-### Enum STANDBY
-
-Controls the inactive standby period in normal mode.
-
-- **MS_0_5** - 0.5 milliseconds
-- **MS_62_5** - 62.5 milliseconds
-- **MS_125** - 125 milliseconds
-- **MS_250** - 250 milliseconds
-- **MS_500** - 500 milliseconds
-- **MS_1000** - 1000 milliseconds
-- **MS_10** - 10 milliseconds
-- **MS_20** - 20 milliseconds
 
 ## Related Packages
 
 - [i2c-bus](https://github.com/fivdi/i2c-bus) - I2C serial bus access
 
+## Roadmap
+
+* Implement white channel reading
+* Implement low and high threshold and interupt status reading

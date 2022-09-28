@@ -98,7 +98,7 @@ class VEML6030 {
 
         return rawValue * VEML6030.READ_BASE_RESOLUTION * gainFactor * integrationFactor;
 
-    } // eo initResolutionMatrix method
+    } // eo calculateLuxLevel method
 
 
     setGain(gain){
