@@ -22,20 +22,20 @@ VEML6030 chipset application notes : https://www.vishay.com/docs/84367/designing
  * [Related Packages](#related-packages)
  * [Roadmap](#Roadmap)
 
-## Features
+### Features
 
  * Ambient light sensing
  * Autocalibration mode
  * Manual mode
  * Promise based asynchronous call methods
 
-## Installation
+### Installation
 
 ```
 npm install --save veml6030
 ```
 
-## Usage
+### Usage
 
 #### Circuit
 
@@ -68,19 +68,20 @@ Sample output:
 }
 ```
 
-## VEML6030 class methods
+### VEML6030 class methods
 
 - [Constructor options](#constructor-options)
 - [VEML6030 methods](#veml6030-methods)
 - [VEML6030 constants](#veml6030-constants)
 
-### Constructor options
+#### Constructor options
 
 VEML6030 class constructor accept an optionnal options object. 
 
 None of theses options are mandatory, so you can invoke VEML6030 constructor without any parameters. In this case it will use options default values.
 
-#### Options
+**Options**:
+
 |Option name|Description|Default Value|
 |:-----|:-----|:-----|
 |debug|If debug is set to true, VEML3060 class will print to console debug information|false|
@@ -92,7 +93,7 @@ None of theses options are mandatory, so you can invoke VEML6030 constructor wit
 |ALSShutDownSetting|Leave this option to default value|false|
 |i2cBusNumber|I2C bus number. I most case leave this value to default value|1|
 
-### VEML6030 methods
+#### VEML6030 methods
 
 - [init()](#init)
 - [readSensorData()](#readSensorData)
@@ -100,7 +101,7 @@ None of theses options are mandatory, so you can invoke VEML6030 constructor wit
 - [maximumMeasurementTime()](#maximummeasurementtime)
 - [close()](#close)
 
-#### init()
+##### init()
 Returns a Promise that will be resolved with an object containing the last
 sensor reading on success, or will be rejected if an error occurs.
 
@@ -109,7 +110,7 @@ An object containing a sensor reading has the following properties:
 - pressure - number, pressure in hectopascal (1 hPa = 1 millibar)
 - temperature - number, temperature in degrees Celsius
 
-#### readSensorData()
+##### readSensorData()
 Returns a Promise that will be resolved with no arguments once the BME280 has
 been triggered to perform a forced measurement, or will be rejected if an
 error occurs.
@@ -122,7 +123,7 @@ the responsibility of the application to wait for the measurement to complete
 before invoking read to get the reading.
 
 
-### VEML6030 constants
+#### VEML6030 constants
 
 VEML6030 package publish folowing constants. You can use it when implementing your own implementation measures.
 
@@ -143,11 +144,11 @@ console.log('Read command is: %o', VEML6030.ALS_READ_REGISTER);
 - **READ_BASE_RESOLUTION**: . This constant value is 0.0036.
 
 
-## Related Packages
+### Related Packages
 
 - [i2c-bus](https://github.com/fivdi/i2c-bus) - I2C serial bus access
 
-## Roadmap
+### Roadmap
 
 * Implement white channel reading
 * Implement low and high threshold and interupt status reading
