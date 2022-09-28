@@ -102,25 +102,43 @@ None of theses options are mandatory, so you can invoke VEML6030 constructor wit
 - [close()](#close)
 
 ##### init()
-Returns a Promise that will be resolved with an object containing the last
-sensor reading on success, or will be rejected if an error occurs.
+Returns a Promise that will be resolved with no arguments once the initial configuration has been wrote to the VEML6030 chipset, or will be rejected if an error occurs.
 
-An object containing a sensor reading has the following properties:
-- humidity - number, relative humidity in percent
-- pressure - number, pressure in hectopascal (1 hPa = 1 millibar)
-- temperature - number, temperature in degrees Celsius
+Configuration values are default ones if you invoke constructor without any options object. If you set some optionnal parameters in constructor call or if you invoke one or more parameter methods, it will be the current values that are send to chipset.
 
+Once init resolve you can use the read readSensorData() method.
 ##### readSensorData()
-Returns a Promise that will be resolved with no arguments once the BME280 has
-been triggered to perform a forced measurement, or will be rejected if an
-error occurs.
+Returns a Promise that will be resolved with an object once the VEML3060 chipset return the readed value, or will be rejected if an error occurs.
 
-triggerForcedMeasurement should only be called in forced mode.
+readSensorData accept one boolean parameter to indicat if you want an autocalibrating measure (prefered) or a raw measure with the current reading options values (gain, integration time, etc.)
 
-Calling triggerForcedMeasurement will only trigger the BME280 to perform a
-forced measurement. It will not wait for that measurement to complete. It is
-the responsibility of the application to wait for the measurement to complete
-before invoking read to get the reading.
+If autocalibration parameter is set to true this method will adjust the gain and the integration time of the chipset according to VISHAY recommandations. 
+
+If you set the parameter to false a simple reading is done with the parameters you set. This mode is intended to permit you to implement your own calibration method. 
+
+We recommend using autocalibration once you don't need to implement your own measures scheme.
+
+Object properties returned when promise resolve contain: 
+
+* **rawValue** : The raw value readed from chipset
+* **luxValue** : The optimized value calculated from raw value (in lux) according to VISHAY recommandations
+* **gain** : The gain value used for reading
+* **integrationTime** : the integration time (in ms) used for reading
+* **autocalibrate** : Inditate if in autocalibration mode (true) or not (false)
+* **retry** : Number of measures done. If autocalibration mode this nuber is > 1 due to gain and integration time adjustments.
+
+Sample object: 
+
+```js
+{
+  rawValue: 1101,
+  luxValue: 31.7088,
+  gain: 2,
+  integrationTime: 100,
+  autocalibrate: true,
+  retry: 6
+}
+```
 
 
 #### VEML6030 constants
