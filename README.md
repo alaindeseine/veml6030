@@ -118,7 +118,7 @@ If you set the parameter to false a simple reading is done with the parameters y
 
 We recommend using autocalibration once you don't need to implement your own measures scheme.
 
-Object properties returned when promise resolve contain: 
+Object properties returned when promise resolve: 
 
 * **rawValue** : The raw value readed from chipset
 * **luxValue** : The optimized value calculated from raw value (in lux) according to VISHAY recommandations
