@@ -1,6 +1,6 @@
 {
   "name": "veml6030",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A package to communicate with VEML chipset through I2C",
   "main": "index.js",
   "scripts": {

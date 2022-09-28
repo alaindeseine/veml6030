@@ -37,10 +37,6 @@ npm install --save veml6030
 
 ### Usage
 
-#### Circuit
-
-![](doc/bme280-pi.png)
-
 #### Report the ambient light with auto calibration mode example.
 ```js
 const VEML6030    = require('veml6030');
@@ -97,9 +93,7 @@ None of theses options are mandatory, so you can invoke VEML6030 constructor wit
 
 - [init()](#init)
 - [readSensorData()](#readSensorData)
-- [typicalMeasurementTime()](#typicalmeasurementtime)
-- [maximumMeasurementTime()](#maximummeasurementtime)
-- [close()](#close)
+
 
 ##### init()
 Returns a Promise that will be resolved with no arguments once the initial configuration has been wrote to the VEML6030 chipset, or will be rejected if an error occurs.
