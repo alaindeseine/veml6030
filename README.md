@@ -85,9 +85,9 @@ None of theses options are mandatory, so you can invoke VEML6030 constructor wit
 |i2cAddress|I2C address (in hex) of VEML6030 chipset|0x48|
 |gain|Fix the gain the chipset should use for reading (use it for manual calibration mode). Authorized value are 0.125, 0.25, 1 or 2. |1|
 |integrationTime|Fix the integration time (in ms) the chipset should use for reading (use it for manual calibration mode)|100|
-|ALSPersistenceProtectNumber||0x00|
-|ALSInterruptEnableSetting||0x00|
-|ALSShutDownSetting||0x00|
+|ALSPersistenceProtectNumber||1|
+|ALSInterruptEnableSetting||false|
+|ALSShutDownSetting||0x0false|
 |i2cBusNumber||1|
 ### Class VEML6030
 
