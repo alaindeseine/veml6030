@@ -1,0 +1,40 @@
+{
+  "name": "veml6030",
+  "version": "1.0.0",
+  "description": "A package to communicate with VEML chipset through I2C",
+  "main": "index.js",
+  "scripts": {
+    "lint": "jshint *.js examples/*.js test/*.js",
+    "test": "cd test && ./run-tests && cd .."
+  },
+  "repository": {
+    "type": "git",
+    "url": "Ajouter url github"
+  },
+  "engines": {
+    "node": ">=10.0.0"
+  },
+  "keywords": [
+    "veml6030",
+    "vishay",
+    "light",
+    "ambient light",
+    "sensor",
+    "iot",
+    "i2c",
+    "raspberry",
+    "raspi",
+    "rpi",
+    "pi",
+    "beaglebone",
+    "linux"
+  ],
+  "author": "Alain Deseine",
+  "license": "MIT",
+  "dependencies": {
+    "i2c-bus": "^5.2.2"
+  },
+  "devDependencies": {
+    "jshint": "^2.12.0"
+  }
+}
