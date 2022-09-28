@@ -84,7 +84,7 @@ None of theses options are mandatory, so you can invoke VEML6030 constructor wit
 
 |Option name|Description|Default Value|
 |:-----|:-----|:-----|
-|debug|If debug is set to true, VEML3060 class will print to console debug information|false|
+|debug|If debug is set to true, VEML6030 class will print to console debug information|false|
 |i2cAddress|I2C address (in hex) of VEML6030 chipset|0x48|
 |gain|Fix the gain the chipset should use for reading (use it for manual calibration mode). Authorized value are 0.125, 0.25, 1 or 2. |1|
 |integrationTime|Fix the integration time (in ms) the chipset should use for reading (use it for manual calibration mode)|100|
@@ -108,7 +108,7 @@ Configuration values are default ones if you invoke constructor without any opti
 
 Once init resolve you can use the read readSensorData() method.
 ##### readSensorData()
-Returns a Promise that will be resolved with an object once the VEML3060 chipset return the readed value, or will be rejected if an error occurs.
+Returns a Promise that will be resolved with an object once the VEML6030 chipset return the readed value, or will be rejected if an error occurs.
 
 readSensorData accept one boolean parameter to indicat if you want an autocalibrating measure (prefered) or a raw measure with the current reading options values (gain, integration time, etc.)
 
