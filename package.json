@@ -9,13 +9,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "Ajouter url github"
+    "url": "https://github.com/alaindeseine/veml6030/"
   },
   "engines": {
     "node": ">=10.0.0"
   },
   "keywords": [
     "veml6030",
+    "veml 6030",
+    "6030",
     "vishay",
     "light",
     "ambient light",
