@@ -101,6 +101,11 @@ class VEML6030 {
     } // eo calculateLuxLevel method
 
 
+    applyCorrectionFormula(rawValue){
+        return (6.0135e-13 * (rawValue ** 4)) - (9.3924e-09 * (rawValue ** 3)) + (8.1488e-05 * (rawValue ** 2)) + (1.0023e-00 * rawValue);
+    } // eo applyCorrectionFormula method
+
+
     setGain(gain){
         switch(gain){
             case 0.125 : {
@@ -313,18 +318,32 @@ class VEML6030 {
         return new Promise((resolve, reject) => {
             if (! autoCalibrate){
                 // No auto calibrate, make a simple measure.
-                this.i2cBus.readWord(this.VEML6030_ADDR, VEML6030.ALS_READ_REGISTER, (error, readBuffer) => {
+                this.i2cBus.readWord(this.VEML6030_ADDR, VEML6030.ALS_READ_REGISTER, (error, readValue) => {
                     if(error) {
                         return reject(error);
                     }
 
+                    let rawLuxValue             = this.calculateLuxLevel(readValue);
+                    let luxValue                = rawLuxValue;
+                    let useCorrectionFormula    = false;
+    
+                    if (readValue > 100){
+                        luxValue    = this.applyCorrectionFormula(rawLuxValue);
+                        useCorrectionFormula    = true;
+                    }
+    
+                    let overflow    = this.checkForOverflow(luxValue);
+    
                     return resolve({
-                        rawValue : readBuffer,
-                        luxValue : this.calculateLuxLevel(readBuffer),
+                        rawValue : readValue,
+                        rawLuxValue: rawLuxValue,
+                        luxValue : luxValue,
+                        useCorrectionFormula: useCorrectionFormula,
                         gain : this.getGain(this.gain),
                         integrationTime : this.getIntegrationTime(this.integrationTime),
-                        autocalibrate: false, 
-                        retry: 1
+                        autocalibrate: false,
+                        retry: 1,
+                        overflow: overflow
                     });
                 });                
             }
@@ -360,14 +379,14 @@ class VEML6030 {
                         this.writeConfigurationSync();
                     }
                     else {
-                        // Readed value is greater than 100, check for overflow.
-                        if (this.checkForOverflow(readValue)){
-                            // Overflow detected, decrease resolution.
+                        // Readed value is greater than 100, check if > 10 000.
+                        if (readValue > 10000){
+                            // Decrease resolution.
                             this.decreaseResolution();
                             this.writeConfigurationSync();
                         }
                         else {
-                            // No overflow, reading is ok.
+                            // readValue i > 100 and < 10000, reading is ok.
                             hasValue = true;
                         }
                     }
@@ -375,13 +394,27 @@ class VEML6030 {
                     count++;
                 }
 
+                let rawLuxValue             = this.calculateLuxLevel(readValue);
+                let luxValue                = rawLuxValue;
+                let useCorrectionFormula    = false;
+
+                if (readValue > 100){
+                    luxValue    = this.applyCorrectionFormula(rawLuxValue);
+                    useCorrectionFormula    = true;
+                }
+
+                let overflow    = this.checkForOverflow(luxValue);
+
                 return resolve({
                     rawValue : readValue,
-                    luxValue : this.calculateLuxLevel(readValue),
+                    rawLuxValue: rawLuxValue,
+                    luxValue : luxValue,
+                    useCorrectionFormula: useCorrectionFormula,
                     gain : this.getGain(this.gain),
                     integrationTime : this.getIntegrationTime(this.integrationTime),
                     autocalibrate: true,
-                    retry: count
+                    retry: count,
+                    overflow: overflow
                 });
             }
         });

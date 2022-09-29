@@ -58,12 +58,15 @@ veml6030.init()
 Sample output:
 ```js
 {
-  rawValue: 1101,
-  luxValue: 31.7088,
-  gain: 2,
-  integrationTime: 100,
-  autocalibrate: true,
-  retry: 6
+  rawValue: 144,
+  rawLuxValue: 66.3552
+  luxValue: 66.8638,
+  useCorrectionFormula: true
+  gain: 0.25,
+  integrationTime: 50,
+  autocalibrate: false,
+  retry: 1,
+  overflow: false
 }
 ```
 
@@ -94,12 +97,15 @@ veml6030.init()
 Sample output:
 ```js
 {
-  rawValue: 1101,
-  luxValue: 31.7088,
-  gain: 2,
-  integrationTime: 100,
-  autocalibrate: true,
-  retry: 6
+  rawValue: 144,
+  rawLuxValue: 66.3552
+  luxValue: 66.8638,
+  useCorrectionFormula: true
+  gain: 0.25,
+  integrationTime: 50,
+  autocalibrate: false,
+  retry: 1,
+  overflow: false
 }
 ```
 
@@ -153,23 +159,30 @@ We recommend using autocalibration once you don't need to implement your own mea
 
 Object properties returned when promise resolve: 
 
-* **rawValue** : The raw value readed from chipset
-* **luxValue** : The optimized value calculated from raw value (in lux) according to VISHAY recommandations
-* **gain** : The gain value used for reading
-* **integrationTime** : the integration time (in ms) used for reading
-* **autocalibrate** : Inditate if in autocalibration mode (true) or not (false)
-* **retry** : Number of measures done. If autocalibration mode this number is > 1 due to gain and integration time adjustments.
+* **rawValue**: The raw value readed from chipset
+* **rawLuxValue**: The optimized raw illumination value calculated from raw value (in lux) according to VISHAY recommandations
+* **luxValue**: The illumination value (in lux). If `rawLuxValue` is <= 100 `luxValue` and `rawLuxValue` are identical. If `rawLuxValue` is > 100 a correction formula is apply to `luxValue` according to VISHAY recommandations
+* **useCorrectionFormula**: Indicate if a correction formula is applied to luxValue (true) or not (false)
+* **gain**: The gain value used for reading
+* **integrationTime**: the integration time (in ms) used for reading
+* **autocalibrate**: Inditate if in autocalibration mode (true) or not (false)
+* **retry**: Number of measures done. If autocalibration mode this number is > 1 due to gain and integration time adjustments.
+* **overflow**: Indicate if an overflow is detected (true) or not (false)
+
 
 Sample object: 
 
 ```js
 {
-  rawValue: 1101,
-  luxValue: 31.7088,
-  gain: 2,
-  integrationTime: 100,
-  autocalibrate: true,
-  retry: 6
+  rawValue: 144,
+  rawLuxValue: 66.3552
+  luxValue: 66.8638,
+  useCorrectionFormula: true
+  gain: 0.25,
+  integrationTime: 50,
+  autocalibrate: false,
+  retry: 1,
+  overflow: false
 }
 ```
 
@@ -201,5 +214,6 @@ console.log('Read command is: %o', VEML6030.ALS_READ_REGISTER);
 
 ### Roadmap
 
-* Implement white channel reading
-* Implement low and high threshold and interupt status reading
+* Implement shutdown/powerup during autocalibration according to Vishay documents.
+* Implement white channel reading.
+* Implement low and high threshold and interupt status reading.
