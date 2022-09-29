@@ -42,7 +42,7 @@ npm install --save veml6030
 
 #### Report the ambient light with auto calibration mode example.
 ```js
-const VEML6030    = require('veml6030');
+const VEML6030    = require('@cabinfo.eu/veml6030');
 
 const veml6030 = new VEML6030({debug: true});
 
@@ -86,7 +86,7 @@ None of theses options are mandatory, so you can invoke VEML6030 constructor wit
 |debug|If debug is set to true, VEML6030 class will print to console debug information|false|
 |i2cAddress|I2C address (in hex) of VEML6030 chipset|0x48|
 |gain|Fix the gain the chipset should use for reading (use it for manual calibration mode). Authorized value are 0.125, 0.25, 1 or 2. |1|
-|integrationTime|Fix the integration time (in ms) the chipset should use for reading (use it for manual calibration mode)|100|
+|integrationTime|Fix the integration time (in ms) the chipset should use for reading (use it for manual calibration mode). Authorized values are 25, 50, 100, 200, 400 or 800.|100|
 |ALSPersistenceProtectNumber|Leave this option to default value|1|
 |ALSInterruptEnableSetting|Leave this option to default value|false|
 |ALSShutDownSetting|Leave this option to default value|false|
@@ -122,7 +122,7 @@ Object properties returned when promise resolve:
 * **gain** : The gain value used for reading
 * **integrationTime** : the integration time (in ms) used for reading
 * **autocalibrate** : Inditate if in autocalibration mode (true) or not (false)
-* **retry** : Number of measures done. If autocalibration mode this nuber is > 1 due to gain and integration time adjustments.
+* **retry** : Number of measures done. If autocalibration mode this number is > 1 due to gain and integration time adjustments.
 
 Sample object: 
 
@@ -145,7 +145,7 @@ VEML6030 package publish folowing constants. You can use it when implementing yo
 All theses constants are static, so you can use it like this:
 
 ```js
-const VEML6030 = require('veml6030');
+const VEML6030 = require('@cabinfo.eu/veml6030');
 console.log('Read command is: %o', VEML6030.ALS_READ_REGISTER);
 ```
 
