@@ -105,7 +105,7 @@ class VEML6030 {
         return (6.0135e-13 * (rawValue ** 4)) - (9.3924e-09 * (rawValue ** 3)) + (8.1488e-05 * (rawValue ** 2)) + (1.0023e-00 * rawValue);
     } // eo applyCorrectionFormula method
 
-    
+
     setGain(gain){
         switch(gain){
             case 0.125 : {
@@ -365,20 +365,22 @@ class VEML6030 {
                         this.writeConfigurationSync();
                     }
                     else {
-                        // Readed value is greater than 100, check for overflow.
-                        if (this.checkForOverflow(readValue)){
-                            // Overflow detected, decrease resolution.
+                        // Readed value is greater than 100, check if > 10 000.
+                        if (readValue > 10000){
+                            // Decrease resolution.
                             this.decreaseResolution();
                             this.writeConfigurationSync();
                         }
                         else {
-                            // No overflow, reading is ok.
+                            // readValue i > 100 and < 10000, reading is ok.
                             hasValue = true;
                         }
                     }
 
                     count++;
                 }
+
+                let overflow    = this.checkForOverflow(readValue);
 
                 return resolve({
                     rawValue : readValue,
