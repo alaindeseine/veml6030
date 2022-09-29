@@ -94,12 +94,12 @@ veml6030.init()
 Sample output:
 ```js
 {
-  rawValue: 1101,
-  luxValue: 31.7088,
-  gain: 2,
-  integrationTime: 100,
-  autocalibrate: true,
-  retry: 6
+  rawValue: 144,
+  luxValue: 66.3552,
+  gain: 0.25,
+  integrationTime: 50,
+  autocalibrate: false,
+  retry: 1
 }
 ```
 
@@ -201,5 +201,8 @@ console.log('Read command is: %o', VEML6030.ALS_READ_REGISTER);
 
 ### Roadmap
 
-* Implement white channel reading
-* Implement low and high threshold and interupt status reading
+* Implement correction formula for count between 100 and 10 000.
+* Implement shutdown/powerup during autocalibration according to Vishay documents.
+* Change decrease resolution criteria
+* Implement white channel reading.
+* Implement low and high threshold and interupt status reading.
