@@ -1,10 +1,10 @@
-[![Build Status](https://travis-ci.org/fivdi/veml6030.svg?branch=master)](https://travis-ci.org/fivdi/veml6030)
-[![npm Version](http://img.shields.io/npm/v/veml6030.svg)](https://www.npmjs.com/package/veml6030)
-[![Downloads Per Month](http://img.shields.io/npm/dm/veml6030.svg)](https://www.npmjs.com/package/veml6030)
-![GitHub last commit](https://img.shields.io/github/last-commit/alaindeseine/veml6030.svg)
-![GitHub top language](https://img.shields.io/github/languages/top/alaindeseine/veml6030.svg)
-![GitHub package.json version](https://img.shields.io/github/package-json/v/alaindeseine/veml6030.svg)
-![NPM](https://img.shields.io/npm/l/@cabinfo.eu/astrophysics-library.svg)
+[![Build Status](https://travis-ci.org/fivdi/veml6030.svg?branch=master)](https://travis-ci.org/fivdi/@cabinfo.eu/veml6030)
+[![npm Version](http://img.shields.io/npm/v/veml6030.svg)](https://www.npmjs.com/package/@cabinfo.eu/veml6030)
+[![Downloads Per Month](http://img.shields.io/npm/dm/veml6030.svg)](https://www.npmjs.com/package/@cabinfo.eu/veml6030)
+![GitHub last commit](https://img.shields.io/github/last-commit/@cabinfo.eu/veml6030.svg)
+![GitHub top language](https://img.shields.io/github/languages/top/@cabinfo.eu/veml6030.svg)
+![GitHub package.json version](https://img.shields.io/github/package-json/v/@cabinfo.eu/veml6030.svg)
+![NPM](https://img.shields.io/npm/l/@cabinfo.eu/veml6030.svg)
 
 # veml6030
 
