@@ -201,8 +201,6 @@ console.log('Read command is: %o', VEML6030.ALS_READ_REGISTER);
 
 ### Roadmap
 
-* Implement correction formula for count between 100 and 10 000.
 * Implement shutdown/powerup during autocalibration according to Vishay documents.
-* Change decrease resolution criteria
 * Implement white channel reading.
 * Implement low and high threshold and interupt status reading.
