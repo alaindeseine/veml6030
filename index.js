@@ -101,6 +101,11 @@ class VEML6030 {
     } // eo calculateLuxLevel method
 
 
+    applyCorrectionFormula(rawValue){
+        return (6.0135e-13 * (rawValue ** 4)) - (9.3924e-09 * (rawValue ** 3)) + (8.1488e-05 * (rawValue ** 2)) + (1.0023e-00 * rawValue);
+    } // eo applyCorrectionFormula method
+
+    
     setGain(gain){
         switch(gain){
             case 0.125 : {
