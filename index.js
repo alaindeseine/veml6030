@@ -318,18 +318,32 @@ class VEML6030 {
         return new Promise((resolve, reject) => {
             if (! autoCalibrate){
                 // No auto calibrate, make a simple measure.
-                this.i2cBus.readWord(this.VEML6030_ADDR, VEML6030.ALS_READ_REGISTER, (error, readBuffer) => {
+                this.i2cBus.readWord(this.VEML6030_ADDR, VEML6030.ALS_READ_REGISTER, (error, readValue) => {
                     if(error) {
                         return reject(error);
                     }
 
+                    let rawLuxValue             = this.calculateLuxLevel(readValue);
+                    let luxValue                = rawLuxValue;
+                    let useCorrectionFormula    = false;
+    
+                    if (readValue > 100){
+                        luxValue    = this.applyCorrectionFormula(rawLuxValue);
+                        useCorrectionFormula    = true;
+                    }
+    
+                    let overflow    = this.checkForOverflow(luxValue);
+    
                     return resolve({
-                        rawValue : readBuffer,
-                        luxValue : this.calculateLuxLevel(readBuffer),
+                        rawValue : readValue,
+                        rawLuxValue: rawLuxValue,
+                        luxValue : luxValue,
+                        useCorrectionFormula: useCorrectionFormula,
                         gain : this.getGain(this.gain),
                         integrationTime : this.getIntegrationTime(this.integrationTime),
-                        autocalibrate: false, 
-                        retry: 1
+                        autocalibrate: false,
+                        retry: 1,
+                        overflow: overflow
                     });
                 });                
             }
@@ -380,15 +394,27 @@ class VEML6030 {
                     count++;
                 }
 
-                let overflow    = this.checkForOverflow(readValue);
+                let rawLuxValue             = this.calculateLuxLevel(readValue);
+                let luxValue                = rawLuxValue;
+                let useCorrectionFormula    = false;
+
+                if (readValue > 100){
+                    luxValue    = this.applyCorrectionFormula(rawLuxValue);
+                    useCorrectionFormula    = true;
+                }
+
+                let overflow    = this.checkForOverflow(luxValue);
 
                 return resolve({
                     rawValue : readValue,
-                    luxValue : this.calculateLuxLevel(readValue),
+                    rawLuxValue: rawLuxValue,
+                    luxValue : luxValue,
+                    useCorrectionFormula: useCorrectionFormula,
                     gain : this.getGain(this.gain),
                     integrationTime : this.getIntegrationTime(this.integrationTime),
                     autocalibrate: true,
-                    retry: count
+                    retry: count,
+                    overflow: overflow
                 });
             }
         });
