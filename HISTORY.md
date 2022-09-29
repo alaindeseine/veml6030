@@ -1,3 +1,9 @@
+1.0.3 - Sep 28 2022
+===================
+
+  * Adding manual example
+  * README.md update
+
 1.0.2 - Sep 28 2022
 ===================
 
