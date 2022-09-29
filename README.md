@@ -67,6 +67,42 @@ Sample output:
 }
 ```
 
+
+#### Report the ambient light with manual configuration example.
+
+```js
+const VEML6030    = require('@cabinfo.eu/veml6030');
+
+const options = {
+    debug: true,
+    gain: 0.25,
+    integrationTime: 50
+};
+
+const veml6030 = new VEML6030(options);
+
+veml6030.init()
+.then(() => {
+    veml6030.readSensorData(false)
+    .then(datas => console.log('Datas readed: %o', datas))
+    .catch(error => console.log(error));
+})
+.catch(error => console.log(error));
+```
+
+
+Sample output:
+```js
+{
+  rawValue: 1101,
+  luxValue: 31.7088,
+  gain: 2,
+  integrationTime: 100,
+  autocalibrate: true,
+  retry: 6
+}
+```
+
 ### VEML6030 class methods
 
 - [Constructor options](#constructor-options)
