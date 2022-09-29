@@ -1,7 +1,7 @@
 1.0.4 - Sep 29 2022
 ===================
 
-  * Change decrease resolut criteria
+  * Change decrease resolution criteria
   * Apply correction formula to readvalues > 100 
   * README.md update
 
